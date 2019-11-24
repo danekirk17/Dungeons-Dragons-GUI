@@ -1,5 +1,8 @@
 package gui;
 
+import dnd.die.D20;
+import dnd.models.Monster;
+import dnd.models.Treasure;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -23,6 +26,8 @@ public class Controller implements Serializable {
     private HashMap<String, Space> spaceMap;
     private HashMap<Space, String> revSpaceMap;
 
+    private D20 d20;
+
     public Controller() {
 
     }
@@ -30,6 +35,7 @@ public class Controller implements Serializable {
     public Controller(Gui theGui) {
         myGui = theGui;
         myLevel = new Level(5);
+        d20 = new D20();
         buildSpaceMap();
         buildRevSpaceMap();
     }
@@ -102,14 +108,6 @@ public class Controller implements Serializable {
         return alert;
     }
 
-    public void edit() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Editing Instructions");
-        alert.setHeaderText("In the following input box, you may add or remove monsters or treasures");
-        TextInputDialog inputDialog = new TextInputDialog("Type here");
-        Optional<String> str = inputDialog.showAndWait();
-    }
-
     public void writeFile() {
         TextInputDialog inputDialog = new TextInputDialog("Filename here");
         inputDialog.setHeaderText("Enter filename to save dungeon level");
@@ -125,10 +123,6 @@ public class Controller implements Serializable {
 
             out.close();
             file.close();
-
-            System.out.println("Object has been serialized");
-            System.out.println("Chamber 1: " + myLevel.getChamber(0).getDescription());
-
         } catch(IOException ex) {
             System.out.println("IOException is caught");
         }
@@ -150,8 +144,9 @@ public class Controller implements Serializable {
             in.close();
             file.close();
 
-            System.out.println("Object has been deserialized ");
-            System.out.println("Chamber 1: " + myLevel.getChamber(0).getDescription());
+            buildSpaceMap();
+            buildRevSpaceMap();
+            myGui.setDesTAText();
         } catch(IOException ex) {
             System.out.println("IOException is caught");
         } catch(ClassNotFoundException ex) {
@@ -159,18 +154,31 @@ public class Controller implements Serializable {
         }
     }
 
+    public void addMonster() {
+        Space mySpace = getSelectedSpace();
+        Monster m = new Monster();
+        m.setType(d20.roll());
+        mySpace.addMonster(m);
+    }
+
+    public void remMonster() {
+        getSelectedSpace().remMonster();
+    }
+
+    public void addTreasure() {
+        Treasure t = new Treasure();
+        t.chooseTreasure(d20.roll() * 5);
+        t.setContainer(d20.roll());
+        getSelectedSpace().addTreasure(t);
+    }
+
+    public void remTreasure() {
+        getSelectedSpace().remTreasure();
+    }
+
     public Space getSelectedSpace() {
         Space mySpace;
         String selected = myGui.getSelectedSpaceStr();
-//        char c = selected.charAt(0);
-//        int num = parseSelectionNum(selected);
-//        if (c == 'C') {
-//            ArrayList<Chamber> chambers = theController.getLevelChambers();
-//            mySpace = chambers.get(num - 1);
-//        } else {
-//            ArrayList<Passage> passages = theController.getLevelPassages();
-//            mySpace = passages.get(num - 1);
-//        }
         mySpace = spaceMap.get(selected);
         return mySpace;
     }

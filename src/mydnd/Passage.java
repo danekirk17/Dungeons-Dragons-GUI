@@ -1,6 +1,7 @@
 package mydnd;
 
 import dnd.models.Monster;
+import dnd.models.Treasure;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class Passage extends Space implements Serializable {
     private HashMap<Door, PassageSection> doorMap;
     /**holds the first and last door.*/
     private ArrayList<Door> myDoors;
+
+    private ArrayList<Monster> myMonsters;
     /**holds a description of the passage.*/
     private String description;
 
@@ -56,22 +59,30 @@ public class Passage extends Space implements Serializable {
 
     /**
      * Accessor for the monster in a specific passage section.
-     * @param i the index of the passage section to return the monster from.
      * @return the monster at the selected section.
      */
-    public Monster getMonster(int i) {
-        //returns Monster door in section 'i'. If there is no Monster, returns null
-        return thePassage.get(i).getMonster();
+    public ArrayList<Monster> getMonsters() {
+        return thePassage.get(0).getMonsters();
     }
 
     /**
      * Adds a monster to a selected passage section.
      * @param theMonster the monster to be added.
-     * @param i the index of the passage section to add the monster to.
      */
-    public void addMonster(Monster theMonster, int i) {
-        // adds a monster to section 'i' of the passage
-        thePassage.get(i).addMonster(theMonster);
+    public void addMonster(Monster theMonster) {
+        thePassage.get(0).addMonster(theMonster);
+    }
+
+    public void remMonster() {
+        thePassage.get(0).remMonster();
+    }
+
+    public void addTreasure(Treasure theTreasure) {
+        thePassage.get(0).addTreasure(theTreasure);
+    }
+
+    public void remTreasure() {
+        thePassage.get(0).remTreasure();
     }
 
     /**
@@ -103,7 +114,6 @@ public class Passage extends Space implements Serializable {
     public String getDescription() {
         description = "";
         for (int i = 0; i < thePassage.size(); i++) {
-
             description += thePassage.get(i).getDescription();
         }
         return description;

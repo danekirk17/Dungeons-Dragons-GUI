@@ -2,8 +2,10 @@ package mydnd;
 
 import dnd.die.D20;
 import dnd.models.Monster;
+import dnd.models.Treasure;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /* Represents a 10 ft section of passageway */
@@ -17,8 +19,10 @@ public class PassageSection implements Serializable {
     private D20 d20;
     /**holds the door in the section.*/
     private Door myDoor;
-    /**holds the monster in the section.*/
-    private Monster myMonster;
+    /**holds the monsters in the section.*/
+    private ArrayList<Monster> myMonsters;
+    /**holds the treasures in the section*/
+    private ArrayList<Treasure> myTreasures;
     /**holds the chamber in the section.*/
     private Chamber myChamber;
     /**holds the given table for generating sections randomly.*/
@@ -38,6 +42,8 @@ public class PassageSection implements Serializable {
     public PassageSection() {
         //sets up the 10 foot section with default settings
         d20 = new D20();
+        myMonsters = new ArrayList<>();
+        myTreasures = new ArrayList<>();
         int roll;
         initTable();
         description = "";
@@ -54,6 +60,8 @@ public class PassageSection implements Serializable {
         //sets up a specific passage based on the values sent in from
         //modified table 1
         int roll = 0;
+        myMonsters = new ArrayList<>();
+        myTreasures = new ArrayList<>();
         isEnd = false;
         initTable();
         description = theDescription;
@@ -81,9 +89,9 @@ public class PassageSection implements Serializable {
      * Accessor for the Monster in the section.
      * @return the monster in the section.
      */
-    public Monster getMonster() {
+    public ArrayList<Monster> getMonsters() {
         //returns the monster that is in the passage section, if there is one
-        return myMonster;
+        return myMonsters;
     }
 
     /**
@@ -99,7 +107,28 @@ public class PassageSection implements Serializable {
      * @param theMonster the monster to add to the section.
      */
     public void addMonster(Monster theMonster) {
-        myMonster = theMonster;
+        myMonsters.add(theMonster);
+        setupSection(20);
+    }
+
+    public void remMonster() {
+        if (myMonsters.size() > 0) {
+            int ind = myMonsters.size() - 1;
+            myMonsters.remove(ind);
+        }
+        setupSection(20);
+    }
+
+    public void addTreasure(Treasure theTreasure) {
+        myTreasures.add(theTreasure);
+        setupSection(20);
+    }
+
+    public void remTreasure() {
+        if (myTreasures.size() > 0) {
+            int ind = myTreasures.size() - 1;
+            myTreasures.remove(ind);
+        }
         setupSection(20);
     }
 
@@ -159,6 +188,7 @@ public class PassageSection implements Serializable {
      * @param roll contains the die roll.
      */
     private void setupSection(int roll) {
+        description = "";
         if (roll >= 1 && roll <= 2) {
             description += "The passage goes straight for 10ft.\n";
         } else if (roll >= 3 && roll <= 5) {
@@ -180,9 +210,17 @@ public class PassageSection implements Serializable {
             description += "There is a dead end. Backtrack to the nearest door.\n";
             isEnd = true;
         } else if (roll == 20) {
-            description += "There is a wandering monster.\n";
-            if (myMonster == null) {
-                myMonster = new Monster();
+            if (myMonsters.size() > 0) {
+                description += "Monsters!\n";
+                for (int i = 0; i < myMonsters.size(); i++) {
+                    description += "Monster " + (i + 1) + ": " + myMonsters.get(i).getDescription() + "\n";
+                }
+            }
+            if (myTreasures.size() > 0) {
+                description += "Treasures!\n";
+                for (int i = 0; i < myTreasures.size(); i++) {
+                    description += "Treasure " + (i + 1) + ": " + myTreasures.get(i).getDescription() + "\n";
+                }
             }
         }
     }

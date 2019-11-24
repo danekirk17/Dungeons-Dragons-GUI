@@ -1,5 +1,8 @@
 package mydnd;
 
+import dnd.models.Monster;
+import dnd.models.Treasure;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -25,4 +28,12 @@ public abstract class Space implements Serializable {
      * @return ArrayList of all doors in the space.
      */
     public abstract ArrayList<Door> getDoors();
+
+    public abstract void addMonster(Monster theMonster);
+
+    public abstract void addTreasure(Treasure theTreasure);
+
+    public abstract void remMonster();
+
+    public abstract void remTreasure();
 }

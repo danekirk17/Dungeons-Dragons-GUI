@@ -76,6 +76,14 @@ public class Gui extends Application {
         des_ta.setPrefSize(200, 200);
     }
 
+    public void setDesTAText() {
+        Space mySpace = theController.getSelectedSpace();
+        if (mySpace != null) {
+            des_ta.setText(mySpace.getDescription());
+            setDoorMenuList();
+        }
+    }
+
     private void setLeftBox() {
         leftBox = new VBox(space_list, edit_btn);
         leftBox.setSpacing(25);
@@ -96,13 +104,7 @@ public class Gui extends Application {
     private void setEditBtn() {
         edit_btn = new Button();
         edit_btn.setText("Edit");
-        edit_btn.setOnMouseClicked(mouseEvent -> theController.edit());
-    }
-
-    private void setDesTAText() {
-        Space mySpace = theController.getSelectedSpace();
-        des_ta.setText(mySpace.getDescription());
-        setDoorMenuList();
+        edit_btn.setOnMouseClicked(mouseEvent -> editUI.display(theController, this));
     }
 
     private void setDoorMenu() {

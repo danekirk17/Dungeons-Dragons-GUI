@@ -154,8 +154,13 @@ public class Chamber extends Space implements Serializable {
      */
     public void addMonster(Monster theMonster) {
         myMonsters.add(theMonster);
-//        int roll = revContents.get(myContents.getDescription());
-//        setupRoom(roll);
+    }
+
+    public void remMonster() {
+        if (myMonsters.size() > 0) {
+            int ind = myMonsters.size() - 1;
+            myMonsters.remove(ind);
+        }
     }
 
     /**
@@ -182,27 +187,46 @@ public class Chamber extends Space implements Serializable {
         return myTreasures;
     }
 
+    public void remTreasure() {
+        if (myTreasures.size() > 0) {
+            int ind = myTreasures.size() - 1;
+            myTreasures.remove(ind);
+        }
+    }
+
     /**
      * Get a description of the room.
      * @return a String containing a description of the room.
      */
     @Override
     public String getDescription() {
-        setupShape();
+        if (description.contains("The chamber is empty.") && myMonsters.size() == 0 && myTreasures.size() == 0) {
+            description = "";
+            setupShape();
+            description += "The chamber is empty.\n";
+        } else if (description.contains("The chamber contains stairs.") && myMonsters.size() == 0 && myTreasures.size() == 0) {
+            description = "";
+            setupShape();
+            description += "The chamber contains stairs.\n";
+        } else {
+            description = "";
+            setupShape();
+        }
+
         for (int i = 0; i < myMonsters.size(); i++) {
-            description += "Monster " + (i+1) + ": " + myMonsters.get(i).getDescription();
+            description += "Monster " + (i+1) + ": " + myMonsters.get(i).getDescription() + "\n";
         }
         for (int i = 0; i < myTreasures.size(); i++) {
-            description += "Treasure " + (i+1) + ": " + myTreasures.get(0).getDescription()
-                    + " stored in " + myTreasures.get(0).getContainer() + " and protected by ";
+            description += "Treasure " + (i+1) + ": " + myTreasures.get(i).getDescription()
+                    + " stored in " + myTreasures.get(i).getContainer() + " and protected by ";
             try {
-                description += myTreasures.get(0).getProtection() + ".\n";
+                description += myTreasures.get(i).getProtection() + ".\n";
             } catch (NotProtectedException e) {
                 description += "nothing!\n";
             }
         }
         if (myTrap != null) {
-            description += "Trap: " + myTrap.getDescription();
+            description += "Trap: " + myTrap.getDescription() + "\n";
         }
         return description;
     }
