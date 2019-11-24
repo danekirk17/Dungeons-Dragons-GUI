@@ -1,0 +1,18 @@
+.root {
+    -fx-font-size: 14px;
+    -fx-font-family: "Comic Sans MS";
+    -fx-background-color: #000000;
+}
+
+.button {
+    -fx-background-color: #9b1c1c;
+}
+
+.text-area {
+    -fx-font-size: 14px;
+    -fx-font-family: "Comic Sans MS";
+}
+
+.list-view {
+    -fx-background-color: #7b53ff;
+}
