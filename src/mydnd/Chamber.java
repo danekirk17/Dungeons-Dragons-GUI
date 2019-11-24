@@ -5,9 +5,9 @@ import dnd.exceptions.NotProtectedException;
 import dnd.exceptions.UnusualShapeException;
 import dnd.models.ChamberShape;
 import dnd.models.ChamberContents;
-import dnd.models.Monster;
-import dnd.models.Trap;
 import dnd.models.Treasure;
+import dnd.models.Trap;
+import dnd.models.Monster;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -156,6 +156,9 @@ public class Chamber extends Space implements Serializable {
         myMonsters.add(theMonster);
     }
 
+    /**
+     * remove one monster from the chamber.
+     */
     public void remMonster() {
         if (myMonsters.size() > 0) {
             int ind = myMonsters.size() - 1;
@@ -187,6 +190,9 @@ public class Chamber extends Space implements Serializable {
         return myTreasures;
     }
 
+    /**
+     * remove one treasure from the chamber.
+     */
     public void remTreasure() {
         if (myTreasures.size() > 0) {
             int ind = myTreasures.size() - 1;
@@ -214,10 +220,10 @@ public class Chamber extends Space implements Serializable {
         }
 
         for (int i = 0; i < myMonsters.size(); i++) {
-            description += "Monster " + (i+1) + ": " + myMonsters.get(i).getDescription() + "\n";
+            description += "Monster " + (i + 1) + ": " + myMonsters.get(i).getDescription() + "\n";
         }
         for (int i = 0; i < myTreasures.size(); i++) {
-            description += "Treasure " + (i+1) + ": " + myTreasures.get(i).getDescription()
+            description += "Treasure " + (i + 1) + ": " + myTreasures.get(i).getDescription()
                     + " stored in " + myTreasures.get(i).getContainer() + " and protected by ";
             try {
                 description += myTreasures.get(i).getProtection() + ".\n";

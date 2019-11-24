@@ -29,11 +29,25 @@ public abstract class Space implements Serializable {
      */
     public abstract ArrayList<Door> getDoors();
 
+    /**
+     * adds a monster to the space.
+     * @param theMonster the monster to add.
+     */
     public abstract void addMonster(Monster theMonster);
 
+    /**
+     * adds a treasure to the space.
+     * @param theTreasure the treasure to add.
+     */
     public abstract void addTreasure(Treasure theTreasure);
 
+    /**
+     * removes a monster from the space.
+     */
     public abstract void remMonster();
 
+    /**
+     * removes a treasure from the space.
+     */
     public abstract void remTreasure();
 }

@@ -162,6 +162,10 @@ public class Level implements Serializable {
         return chamberNumbers;
     }
 
+    /**
+     * gets the list of passages in the dungeon level.
+     * @return the list of passages in the dungeon level.
+     */
     public ArrayList<Passage> getPassages() {
         return passages;
     }

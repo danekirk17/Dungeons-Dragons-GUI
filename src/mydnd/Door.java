@@ -17,7 +17,7 @@ public class Door implements Serializable {
     private Trap myTrap;
     /**holds the two spaces connected by the door.*/
     private ArrayList<Space> mySpaces;
-    /**holds ALL the spaces*/
+    /**holds ALL the spaces.*/
     private ArrayList<Space> allSpaces;
     /**true if door in an archway.*/
     private boolean isArchway;
@@ -27,7 +27,7 @@ public class Door implements Serializable {
     private boolean isLocked;
     /**true if door is trapped.*/
     private boolean isTrapped;
-    /**holds a D20 for random generation*/
+    /**holds a D20 for random generation.*/
     private D20 d20;
     /**holds description of the room.*/
     private String description;
@@ -153,6 +153,10 @@ public class Door implements Serializable {
         return mySpaces;
     }
 
+    /**
+     * returns the list of all spaces connected by the door.
+     * @return the list of all spaces connected by the door.
+     */
     public ArrayList<Space> getAllSpaces() {
         return allSpaces;
     }
@@ -215,7 +219,7 @@ public class Door implements Serializable {
         int roll;
         D6 d6 = new D6();
         D10 d10 = new D10();
-        D20 d20 = new D20();
+        d20 = new D20();
         //use dice to decide if door is open, trapped etc.
         roll = d10.roll();
         if (roll == 1) {

@@ -7,11 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-/*
-A passage begins at a door and ends at a door.  It may have many other doors along
-the way. You will need to keep track of which door is the "beginning" of the passage
-so that you know how to.
-*/
+
 /**
  * Creates a Passage. Passages are made up of passage sections.
  */
@@ -23,7 +19,7 @@ public class Passage extends Space implements Serializable {
     private HashMap<Door, PassageSection> doorMap;
     /**holds the first and last door.*/
     private ArrayList<Door> myDoors;
-
+    /**holds a list of the monsters in the passage.*/
     private ArrayList<Monster> myMonsters;
     /**holds a description of the passage.*/
     private String description;
@@ -73,14 +69,24 @@ public class Passage extends Space implements Serializable {
         thePassage.get(0).addMonster(theMonster);
     }
 
+    /**
+     * removes a monster from the passage.
+     */
     public void remMonster() {
         thePassage.get(0).remMonster();
     }
 
+    /**
+     * adds a treasure to the passage.
+     * @param theTreasure the treasure to add.
+     */
     public void addTreasure(Treasure theTreasure) {
         thePassage.get(0).addTreasure(theTreasure);
     }
 
+    /**
+     * removes a treasure from the passage.
+     */
     public void remTreasure() {
         thePassage.get(0).remTreasure();
     }

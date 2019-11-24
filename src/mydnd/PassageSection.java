@@ -21,7 +21,7 @@ public class PassageSection implements Serializable {
     private Door myDoor;
     /**holds the monsters in the section.*/
     private ArrayList<Monster> myMonsters;
-    /**holds the treasures in the section*/
+    /**holds the treasures in the section.*/
     private ArrayList<Treasure> myTreasures;
     /**holds the chamber in the section.*/
     private Chamber myChamber;
@@ -111,6 +111,9 @@ public class PassageSection implements Serializable {
         setupSection(20);
     }
 
+    /**
+     * removes a monster from the passage section.
+     */
     public void remMonster() {
         if (myMonsters.size() > 0) {
             int ind = myMonsters.size() - 1;
@@ -119,11 +122,18 @@ public class PassageSection implements Serializable {
         setupSection(20);
     }
 
+    /**
+     * adds a treasure to the section.
+     * @param theTreasure the treasure to add.
+     */
     public void addTreasure(Treasure theTreasure) {
         myTreasures.add(theTreasure);
         setupSection(20);
     }
 
+    /**
+     * removes a treasure from the section.
+     */
     public void remTreasure() {
         if (myTreasures.size() > 0) {
             int ind = myTreasures.size() - 1;
