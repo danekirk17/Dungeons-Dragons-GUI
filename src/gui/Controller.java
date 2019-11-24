@@ -207,16 +207,21 @@ public class Controller implements Serializable {
      */
     public void addMonster() {
         Space mySpace = getSelectedSpace();
-        Monster m = new Monster();
-        m.setType(d20.roll());
-        mySpace.addMonster(m);
+        if (mySpace != null) {
+            Monster m = new Monster();
+            m.setType(d20.roll());
+            mySpace.addMonster(m);
+        }
     }
 
     /**
      * removes a monster from the selected space.
      */
     public void remMonster() {
-        getSelectedSpace().remMonster();
+        Space mySpace = getSelectedSpace();
+        if (mySpace != null) {
+            mySpace.remMonster();
+        }
     }
 
     /**
@@ -226,14 +231,47 @@ public class Controller implements Serializable {
         Treasure t = new Treasure();
         t.chooseTreasure(d20.roll() * 5);
         t.setContainer(d20.roll());
-        getSelectedSpace().addTreasure(t);
+        Space mySpace = getSelectedSpace();
+        if (mySpace != null) {
+            mySpace.addTreasure(t);
+        }
     }
 
     /**
      * removes a treasure from the selected space.
      */
     public void remTreasure() {
-        getSelectedSpace().remTreasure();
+        Space mySpace = getSelectedSpace();
+        if (mySpace != null) {
+            mySpace.remTreasure();
+        }
+    }
+
+    /**
+     * saves edits made to monsters/treasures in spaces.
+     * @param monsterNum the number of monsters to add/remove.
+     * @param treasureNum the number of treasures to add/remove.
+     */
+    public void save(int monsterNum, int treasureNum) {
+        if (monsterNum > 0) {
+            for (int i = 0; i < monsterNum; i++) {
+                addMonster();
+            }
+        } else if (monsterNum < 0) {
+            for (int i = 0; i < Math.abs(monsterNum); i++) {
+                remMonster();
+            }
+        }
+        if (treasureNum > 0) {
+            for (int i = 0; i < treasureNum; i++) {
+                addTreasure();
+            }
+        } else if (treasureNum < 0) {
+            for (int i = 0; i < Math.abs(treasureNum); i++) {
+                remTreasure();
+            }
+        }
+        myGui.setDesTAText();
     }
 
     /**

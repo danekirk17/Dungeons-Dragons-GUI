@@ -114,7 +114,8 @@ public class Gui extends Application {
     public void setDesTAText() {
         Space mySpace = theController.getSelectedSpace();
         if (mySpace != null) {
-            desTA.setText(mySpace.getDescription());
+            String des = getSelectedSpaceStr() + "\n\n" + mySpace.getDescription();
+            desTA.setText(des);
             setDoorMenuList();
         }
     }

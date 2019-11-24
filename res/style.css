@@ -4,9 +4,23 @@
     -fx-background-color: #000000;
 }
 
+.label {
+    -fx-text-fill: #ffffff;
+}
+
+.menu-bar .label {
+    -fx-text-fill: #000000;
+}
+
 .button {
     -fx-background-color: #6d696e;
+    -fx-text-fill: #ae1c0b;
 }
+
+.choice-box .label {
+    -fx-text-fill: #000000;
+}
+
 .text-area .content {
     -fx-font-size: 14px;
     -fx-font-family: "Comic Sans MS";

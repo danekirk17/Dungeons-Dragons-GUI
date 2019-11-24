@@ -2,6 +2,7 @@ package gui;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -37,6 +38,16 @@ public final class EditUI {
     private static Button addTreasureBtn;
     /**holds the remove treasure button.*/
     private static Button remTreasureBtn;
+    /**holds save edits button.*/
+    private static Button saveBtn;
+    /**displays the count of monsters to be added or removed.*/
+    private static Label monsterCount;
+    /**displays the count of treasures to be added or removed.*/
+    private static Label treasureCount;
+    /**holds the amount of monsters to be added or removed.*/
+    private static int monsterNum;
+    /**holds the amount of treasures to be added or removed.*/
+    private static int treasureNum;
 
     /**
      * initialize all gui elements in this scene.
@@ -50,6 +61,11 @@ public final class EditUI {
         remMonsterBtn = new Button();
         addTreasureBtn = new Button();
         remTreasureBtn = new Button();
+        saveBtn = new Button();
+        monsterCount = new Label("Monster Count: 0");
+        treasureCount = new Label("Treasure Count: 0");
+        monsterNum = 0;
+        treasureNum = 0;
     }
 
     /**
@@ -59,7 +75,7 @@ public final class EditUI {
     private static void setStage(String selected) {
         stage.initModality(Modality.WINDOW_MODAL);
         stage.setTitle(selected + " Editing Screen");
-        stage.setMinHeight(150);
+        stage.setMinHeight(200);
         stage.setMinWidth(350);
     }
 
@@ -71,24 +87,37 @@ public final class EditUI {
     private static void setBtns(Controller theController, Gui myGui) {
         addMonsterBtn.setText("Add Monster");
         addMonsterBtn.setOnAction(e -> {
-            theController.addMonster();
-            myGui.setDesTAText();
+            monsterNum++;
+            setLabelText();
         });
         remMonsterBtn.setText("Remove Monster");
         remMonsterBtn.setOnAction(e -> {
-            theController.remMonster();
-            myGui.setDesTAText();
+            monsterNum--;
+            setLabelText();
         });
         addTreasureBtn.setText("Add Treasure");
         addTreasureBtn.setOnAction(e -> {
-            theController.addTreasure();
-            myGui.setDesTAText();
+            treasureNum++;
+            setLabelText();
         });
         remTreasureBtn.setText("Remove Treasure");
         remTreasureBtn.setOnAction(e -> {
-            theController.remTreasure();
-            myGui.setDesTAText();
+            treasureNum--;
+            setLabelText();
         });
+        saveBtn.setText("Save");
+        saveBtn.setOnAction(e -> {
+            theController.save(monsterNum, treasureNum);
+            monsterNum = 0;
+            treasureNum = 0;
+            setLabelText();
+            stage.close();
+        });
+    }
+
+    private static void setLabelText() {
+        monsterCount.setText("Monster Count: " + monsterNum);
+        treasureCount.setText("Treasure Count: " + treasureNum);
     }
 
     /**
@@ -101,10 +130,13 @@ public final class EditUI {
         init();
         setStage(selected);
         setBtns(theController, myGui);
-        monsterBox = new VBox(addMonsterBtn, remMonsterBtn);
-        treasureBox = new VBox(addTreasureBtn, remTreasureBtn);
+        monsterBox = new VBox(addMonsterBtn, remMonsterBtn, monsterCount);
+        treasureBox = new VBox(addTreasureBtn, remTreasureBtn, treasureCount);
+        monsterBox.setSpacing(10);
+        treasureBox.setSpacing(10);
         pane.setLeft(monsterBox);
         pane.setRight(treasureBox);
+        pane.setBottom(saveBtn);
         stage.setScene(scene);
         stage.showAndWait();
     }
